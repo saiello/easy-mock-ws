@@ -1,0 +1,18 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: easy-ws-mock-pet-store-svc
+  namespace: ptt-common-codeready
+spec:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  selector:
+    app.kubernetes.io/instance: easy-ws-mock-pet-store-svc
+    app.kubernetes.io/name: easy-mock-ws
+  type: ClusterIP
+  sessionAffinity: None
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack

@@ -1,0 +1,16 @@
+{
+    "getPetById":{
+        "endpoint": "/ws-pets",
+        "timeout": 16,
+        "namespaces": {
+	        "env": "http://www.w3.org/2001/12/soap-envelope",
+          "pets": "urn:com:example:petstore" 
+        },
+        "matcher" : [
+          {
+            "xpath": "/env:Envelope/env:Body/pets:getPetByIdRequest/pets:id/text()"
+          }
+        ],
+        "default" : "response.xml"
+    }
+}

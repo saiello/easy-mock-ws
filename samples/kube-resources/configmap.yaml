@@ -1,0 +1,34 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: easy-ws-mock-pet-store-cm
+data:
+  defaultResponse: >
+    <?xml version="1.0" encoding="UTF-8"?>
+    <env:Envelope xmlns:env="http://www.w3.org/2001/12/soap-envelope">
+        <env:Header/>
+        <env:Body>
+            <getPetByIdResponse xmlns="urn:com:example:petstore">
+                <id>0</id>
+                <name>Bobby</name>
+            </getPetByIdResponse>
+        </env:Body>
+    </env:Envelope>
+  definitions.json: |
+    {
+      "getPetById":{
+          "endpoint": "/ws-pets",
+          "timeout": 16,
+          "namespaces": {
+            "env": "http://www.w3.org/2001/12/soap-envelope",
+            "pets": "urn:com:example:petstore" 
+          },
+          "matcher" : [
+            {
+              "xpath": "/env:Envelope/env:Body/pets:getPetByIdRequest/pets:id/text()"
+            }
+          ],
+          "default" : "default"
+      }
+    }
+
