@@ -5,6 +5,8 @@ const xpath = require('xpath')
 , path = require('path')
 , fs = require('fs');
 
+const Generators = require('./generators');
+
 
 
 function serveResponse(responseFilePath, selected, res, timeout){
@@ -35,19 +37,22 @@ function serveResponse(responseFilePath, selected, res, timeout){
 		//console.log("ResponseFile: ", responseFile);
 
 		// Send responseFile back to the client
-		if(responseFile){
-			fs.readFile(responseFile, function(err,data){
-				res.setHeader('Content-Type', 'application/xml');
+		function sendFileContent(err, data) {
+			res.setHeader('Content-Type', 'application/xml');
 
-				if(timeout){
-					console.log('SendData With timeout', timeout);
-					setTimeout(function(){
-						res.send(data);
-					}, timeout);
-				}else{
-					res.send(data);
-				}
-			});
+			if(timeout){
+				console.log('SendData With timeout', timeout);
+				setTimeout(function(){
+					res.send(Generators.process(data));
+				}, timeout);
+			}else{
+				res.send(Generators.process(data));
+			}
+		}
+
+
+		if(responseFile){
+			fs.readFile(responseFile, sendFileContent);
 		} else {
 			console.log("No mock defined");
 			res.send(404, "No mock response file selected:" + selected);

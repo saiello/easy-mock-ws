@@ -7,3 +7,10 @@ build:
 
 publish:
 	docker push $(IMAGE_NAME):$(IMAGE_TAG)
+
+
+serve:
+	MOCK_PATH=${PWD}/samples/pet-store node src/app.js
+
+test:
+	cd src && npm test

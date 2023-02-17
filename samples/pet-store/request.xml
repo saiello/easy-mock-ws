@@ -2,7 +2,7 @@
 <env:Envelope xmlns:env="http://www.w3.org/2001/12/soap-envelope">
     <env:Body>
         <getPetByIdRequest xmlns="urn:com:example:petstore">
-            <id>1</id>
+            <id>2</id>
         </getPetByIdRequest>
     </env:Body>
 </env:Envelope>

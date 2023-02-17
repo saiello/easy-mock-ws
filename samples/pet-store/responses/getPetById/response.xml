@@ -3,7 +3,7 @@
     <env:Header/>
     <env:Body>
         <getPetByIdResponse xmlns="urn:com:example:petstore">
-            <id>0</id>
+            <id>${generate:integer}</id>
             <name>Bobby</name>
         </getPetByIdResponse>
     </env:Body>
