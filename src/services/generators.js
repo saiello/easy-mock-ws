@@ -8,8 +8,8 @@ const generators = {
 
 exports.process = function(buf){
     data = buf.toString()
-    console.log(data);
-    console.log(typeof data);
+    //console.log(data);
+    //console.log(typeof data);
 
     const matchedGenerators = [...data.matchAll(regexp)];
 

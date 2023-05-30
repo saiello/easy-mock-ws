@@ -1,11 +1,10 @@
 
-const xpath = require('xpath')
-, dom = require('xmldom').DOMParser
-, _ = require('lodash')
+const _ = require('lodash')
 , path = require('path')
 , fs = require('fs');
 
 const Generators = require('./generators');
+const MatcherResolver = require('./matchResolver');
 
 
 
@@ -76,26 +75,16 @@ function selectMockResponse(handlerConfiguration, req_body, responseFilePath){
 
 		if(handlerConfiguration.matcher){
 
-			var doc = new dom().parseFromString(req_body);
-			//console.log("UsingNamespaces;", handlerConfiguration.namespaces);
-			var select = xpath.useNamespaces(handlerConfiguration.namespaces);
+			const matchResolver = MatcherResolver.build(req_body, handlerConfiguration.namespaces)
 
 			// Find the first matcher
 			_.find(handlerConfiguration.matcher, function(matcher){
-					var match = select(matcher.xpath, doc).toString();
-				//	console.log("XPath:", matcher.xpath, " match to: ", match);
-					var outcome;
-					if(matcher.dispatch){
-						outcome = matcher.dispatch[match];
-					}else{
-						outcome = match;
-					}
+				const outcome = matchResolver.resolve(matcher);
 
-					if(outcome && fs.existsSync(responseFilePath(outcome))){
-							selected = outcome;
-					}
-
-					return !!selected;
+				if(outcome && fs.existsSync(responseFilePath(outcome))){
+					selected = outcome;
+				}
+				return !!selected;
 			});
 
 		}
